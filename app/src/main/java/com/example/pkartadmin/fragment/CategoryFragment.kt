@@ -22,10 +22,11 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.log
 
 
 class CategoryFragment : Fragment() {
-
+    private val TAG : String = "CategoryFragment"
     private lateinit var binding:FragmentCategoryBinding
     private lateinit var dialog : Dialog
     private var imageURI : Uri? = null
@@ -54,24 +55,23 @@ class CategoryFragment : Fragment() {
         }
         return binding.root
     }
+private fun getData(){
+    val list = ArrayList<CategoryModel>()
+    Firebase.firestore.collection("category")
+        .get()
+        .addOnSuccessListener {
+//            list.clear()
+           for (document in it.documents){
 
-    private fun getData() {
-        var list = ArrayList<CategoryModel>()
-        Firebase.firestore.collection("category").get()
-            .addOnSuccessListener {documents->
-                for(document in documents.documents){
-                    val data = document.toObject(CategoryModel::class.java)
-                    list.add(data!!)
-                }
-            }
-        Log.d("CategoryFragment", "getData: ${list.size}")
-        for (i in list){
-
-            Log.d("CategoryFragment", "getData: ${i.cat} and ${i.image}")
+               val data = document.toObject<CategoryModel>()
+               list.add(data!!)
+           }
+            binding.categoryRecycler.adapter = CategoryAdapter(requireContext(),list)
         }
-        binding.categoryRecycler.adapter = CategoryAdapter(requireContext(),list)
-//        binding.categoryRecycler.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-    }
+
+
+}
+
 
     private fun validateData(name: String) {
         if(name.isEmpty()){

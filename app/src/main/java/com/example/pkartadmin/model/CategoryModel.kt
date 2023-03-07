@@ -1,6 +1,6 @@
 package com.example.pkartadmin.model
 
 data class CategoryModel(
-    var cat : String? = "",
-    var image :String?=""
+    var cate : String?=null,
+    var img :String?=null
 )

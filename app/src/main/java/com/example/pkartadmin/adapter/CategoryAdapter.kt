@@ -22,8 +22,8 @@ class CategoryAdapter(var context : Context, val list:ArrayList<CategoryModel>) 
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        Glide.with(context).load(list[position].image).into(holder.binding.imageView3)
-        holder.binding.textView2.text = list[position].cat
+        Glide.with(context).load(list[position].img).into(holder.binding.imageView3)
+        holder.binding.textView2.text = list[position].cate
     }
 
     override fun getItemCount(): Int {
