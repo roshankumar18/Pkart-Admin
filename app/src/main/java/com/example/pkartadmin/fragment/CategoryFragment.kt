@@ -28,6 +28,7 @@ import kotlin.math.log
 class CategoryFragment : Fragment() {
     private val TAG : String = "CategoryFragment"
     private lateinit var binding:FragmentCategoryBinding
+    private lateinit var adapter: CategoryAdapter
     private lateinit var dialog : Dialog
     private var imageURI : Uri? = null
     private val launchGalleryActivity = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -65,7 +66,9 @@ private fun getData(){
 
                val data = document.toObject<CategoryModel>()
                list.add(data!!)
+
            }
+
             binding.categoryRecycler.adapter = CategoryAdapter(requireContext(),list)
         }
 
@@ -111,7 +114,7 @@ private fun getData(){
         db.collection("category").add(data)
             .addOnSuccessListener {
                 Toast.makeText(context, "Category Added", Toast.LENGTH_SHORT).show()
-                getData()
+//                getData()
             }.addOnFailureListener{
                 Toast.makeText(context, "failure", Toast.LENGTH_SHORT).show()
             }
